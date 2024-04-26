@@ -39,7 +39,18 @@ const productSlice = createSlice({
     totalPageNum: 1,
     success: false,
   },
-  reducers: {},
+  reducers: {
+    setSelectedProduct: (state, action) => {
+      state.selectedProduct = action.payload;
+    },
+    setFilteredList: (state, action) => {
+      state.filteredList = action.payload;
+    },
+    clearError: (state) => {
+      state.error = "";
+      state.success = false;
+    },
+  },
   extraReducers: (builder) => {},
 });
 

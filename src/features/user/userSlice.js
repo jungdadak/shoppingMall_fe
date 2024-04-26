@@ -41,7 +41,12 @@ const userSlice = createSlice({
     registrationError: null,
     success: false,
   },
-  reducers: {},
+  reducers: {
+    clearErrors: (state) => {
+      state.loginError = null;
+      state.registrationError = null;
+    },
+  },
   extraReducers: (builder) => {},
 });
 export const { clearErrors } = userSlice.actions;

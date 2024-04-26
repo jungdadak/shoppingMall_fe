@@ -38,7 +38,11 @@ export const updateOrder = createAsyncThunk(
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedOrder: (state, action) => {
+      state.selectedOrder = action.payload;
+    },
+  },
   extraReducers: (builder) => {},
 });
 
