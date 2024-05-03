@@ -12,10 +12,10 @@ const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const { user, loginError } = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginError } = useSelector((state) => state.user);
+
   useEffect(() => {
     if (loginError) {
       dispatch(clearErrors());

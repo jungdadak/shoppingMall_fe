@@ -22,9 +22,9 @@ const InitialFormData = {
 };
 
 const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
-  const selectedProduct = useSelector((state) => state.product.selectedProduct);
-
-  const { error, success } = useSelector((state) => state.product);
+  const { error, success, selectedProduct } = useSelector(
+    (state) => state.product
+  );
   const [formData, setFormData] = useState(
     mode === "new" ? { ...InitialFormData } : selectedProduct
   );
@@ -109,7 +109,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       }
     }
   }, [showDialog]);
-  //에러나면 토스트 메세지 보여주기
+
   return (
     <Modal show={showDialog} onHide={handleClose}>
       <Modal.Header closeButton>
