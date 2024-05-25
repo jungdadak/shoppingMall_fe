@@ -40,6 +40,20 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     if (error || !success) {
       dispatch(clearError());
     }
+    if (showDialog) {
+      if (mode === "edit") {
+        setFormData(selectedProduct);
+        // 객체형태로 온 stock을  다시 배열로 세팅해주기
+        const sizeArray = Object.keys(selectedProduct.stock).map((size) => [
+          size,
+          selectedProduct.stock[size],
+        ]);
+        setStock(sizeArray);
+      } else {
+        setFormData({ ...InitialFormData });
+        setStock([]);
+      }
+    }
   }, [showDialog]);
 
   const handleClose = () => {
@@ -99,16 +113,6 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   const uploadImage = (url) => {
     //이미지 업로드
   };
-
-  useEffect(() => {
-    if (showDialog) {
-      if (mode === "edit") {
-        // 선택된 데이터값 불러오기 (재고 형태 객체에서 어레이로 바꾸기)
-      } else {
-        // 초기화된 값 불러오기
-      }
-    }
-  }, [showDialog]);
 
   return (
     <Modal show={showDialog} onHide={handleClose}>
