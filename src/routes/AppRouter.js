@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router";
 import AdminOrderPage from "../page/AdminOrderPage/AdminOrderPage";
-import AdminProduct from "../page/AdminOrderProductPage/AdminProductPage";
+import AdminProduct from "../page/AdminProductPage/AdminProductPage";
 import CartPage from "../page/CartPage/CartPage";
 import Login from "../page/LoginPage/LoginPage";
 import MyPage from "../page/MyPage/MyPage";

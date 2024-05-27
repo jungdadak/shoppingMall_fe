@@ -18,20 +18,12 @@ const ProductDetail = () => {
   const navigate = useNavigate();
 
   const addItemToCart = () => {
-    if (size === "") {
-      setSizeError(true);
-      return;
-    }
-    setSizeError(false);
-    if (!user) {
-      navigate("/login");
-    }
-
-    dispatch(addToCart({ id, size }));
+    //사이즈를 아직 선택안했다면 에러
+    // 아직 로그인을 안한유저라면 로그인페이지로
+    // 카트에 아이템 추가하기
   };
   const selectSize = (value) => {
-    if (sizeError) setSizeError(false);
-    setSize(value);
+    // 사이즈 추가하기
   };
 
   useEffect(() => {

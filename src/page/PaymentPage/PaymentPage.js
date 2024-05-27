@@ -62,8 +62,7 @@ const PaymentPage = () => {
   };
 
   const handleFormChange = (event) => {
-    const { name, value } = event.target;
-    setShipInfo({ ...shipInfo, [name]: value });
+    //shipInfo에 값 넣어주기
   };
 
   const handlePaymentInfoChange = (event) => {
