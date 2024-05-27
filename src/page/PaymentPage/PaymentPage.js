@@ -10,7 +10,6 @@ import { createOrder } from "../../features/order/orderSlice";
 
 const PaymentPage = () => {
   const dispatch = useDispatch();
-  const { cartList, totalPrice } = useSelector((state) => state.cart);
   const { orderNum } = useSelector((state) => state.order);
   const [cardValue, setCardValue] = useState({
     cvc: "",
@@ -42,23 +41,7 @@ const PaymentPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { firstName, lastName, contact, address, city, zip } = shipInfo;
-
-    dispatch(
-      createOrder({
-        shipTo: { address, city, zip },
-        contact: { contact, lastName, firstName },
-        orderList: cartList.map((item) => {
-          return {
-            productId: item.productId._id,
-            price: item.productId.price,
-            qty: item.qty,
-            size: item.size,
-          };
-        }),
-        totalPrice,
-      })
-    );
+    // 오더 생성하기
   };
 
   const handleFormChange = (event) => {
@@ -66,14 +49,7 @@ const PaymentPage = () => {
   };
 
   const handlePaymentInfoChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "expiry") {
-      let newValue = cc_expires_format(value);
-
-      setCardValue({ ...cardValue, [name]: newValue });
-      return;
-    }
-    setCardValue({ ...cardValue, [name]: value });
+    //카드정보 넣어주기
   };
 
   const handleInputFocus = (e) => {
@@ -152,15 +128,10 @@ const PaymentPage = () => {
                   </Form.Group>
                 </Row>
                 <div className="mobile-receipt-area">
-                  <OrderReceipt cartList={cartList} totalPrice={totalPrice} />
+                  {/* <OrderReceipt /> */}
                 </div>
                 <div>
                   <h2 className="payment-title">결제 정보</h2>
-                  <PaymentForm
-                    cardValue={cardValue}
-                    handlePaymentInfoChange={handlePaymentInfoChange}
-                    handleInputFocus={handleInputFocus}
-                  />
                 </div>
 
                 <Button
@@ -175,7 +146,7 @@ const PaymentPage = () => {
           </div>
         </Col>
         <Col lg={5} className="receipt-area">
-          <OrderReceipt cartList={cartList} totalPrice={totalPrice} />
+          {/* <OrderReceipt  /> */}
         </Col>
       </Row>
     </Container>
