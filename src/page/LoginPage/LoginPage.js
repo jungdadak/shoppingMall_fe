@@ -27,7 +27,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async (googleData) => {
-    dispatch(loginWithGoogle(googleData.credential));
+    //구글 로그인 하기
   };
 
   if (user) {

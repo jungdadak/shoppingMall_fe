@@ -30,7 +30,7 @@ const PaymentPage = () => {
   });
 
   useEffect(() => {
-    // 오더넘버를 받으면? 어디로 갈까
+    // 오더번호를 받으면 어디로 갈까?
   }, [orderNum]);
 
   const handleSubmit = (event) => {
