@@ -30,13 +30,7 @@ const PaymentPage = () => {
   });
 
   useEffect(() => {
-    if (firstLoading) {
-      setFirstLoading(false);
-    } else {
-      if (orderNum !== "") {
-        navigate("/payment/success");
-      }
-    }
+    // 오더넘버를 받으면? 어디로 갈까
   }, [orderNum]);
 
   const handleSubmit = (event) => {
