@@ -8,11 +8,13 @@ export const getProductList = createAsyncThunk(
 	async (query, { rejectWithValue }) => {
 		try {
 			const response = await api.get("/product", { params: { ...query } });
+			console.log("response", response);
 			if (response.status !== 200 && response.status !== 201)
 				throw new Error(response.error);
-			return response.data.productList;
+			return response.data;
+			return response.data.totalPageNum;
 		} catch (error) {
-			rejectWithValue(error.message);
+			return rejectWithValue(error.message);
 		}
 	}
 );
@@ -32,7 +34,7 @@ export const createProduct = createAsyncThunk(
 			dispatch(
 				showToastMessage({ message: "상품이 등록되었습니다.", status: "success" })
 			);
-			return response.data.productList;
+			return response.data.data;
 		} catch (error) {
 			return rejectWithValue(error.error);
 		}
@@ -84,7 +86,7 @@ const productSlice = createSlice({
 			})
 			.addCase(createProduct.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload;
+				state.error = action.payload.data;
 				state.success = false;
 			})
 			.addCase(getProductList.pending, (state, action) => {
@@ -92,12 +94,13 @@ const productSlice = createSlice({
 			})
 			.addCase(getProductList.fulfilled, (state, action) => {
 				state.loading = false;
-				state.productList = action.payload;
+				state.productList = action.payload.data;
 				state.error = "";
+				state.totalPageNum = action.payload.totalPageNum;
 			})
 			.addCase(getProductList.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload;
+				state.error = action.payload.data;
 			});
 	},
 });

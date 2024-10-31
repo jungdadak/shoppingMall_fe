@@ -23,14 +23,11 @@ const LandingPage = () => {
 		<Container>
 			<Row>
 				{productList.length > 0 ? (
-					productList
-						.slice()
-						.reverse()
-						.map((item) => (
-							<Col md={3} sm={12} key={item._id}>
-								<ProductCard item={item} />
-							</Col>
-						))
+					productList.map((item) => (
+						<Col md={3} sm={12} key={item._id}>
+							<ProductCard item={item} />
+						</Col>
+					))
 				) : (
 					<div className="text-align-center empty-bag">
 						{name === "" ? (
