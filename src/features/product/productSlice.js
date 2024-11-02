@@ -12,7 +12,6 @@ export const getProductList = createAsyncThunk(
 			if (response.status !== 200 && response.status !== 201)
 				throw new Error(response.error);
 			return response.data;
-			return response.data.totalPageNum;
 		} catch (error) {
 			return rejectWithValue(error.message);
 		}
@@ -23,10 +22,10 @@ export const getProductDetail = createAsyncThunk(
 	"products/getProductDetail",
 	async (id, { rejectWithValue }) => {
 		try {
-			const response = await api.get(`/product/${id}`); // 여기서 'product'를 'products'로 수정
+			const response = await api.get(`/product/${id}`); // 'product' 유지
 			if (response.status !== 200 && response.status !== 201)
 				throw new Error(response.error);
-			return response.data.product; // 또는 response.data.data로 응답 구조에 따라 수정
+			return response.data.product; // 응답 구조에 따라 조정
 		} catch (error) {
 			return rejectWithValue(error.message);
 		}
@@ -46,14 +45,27 @@ export const createProduct = createAsyncThunk(
 			dispatch(getProductList({ page: 1 }));
 			return response.data.data;
 		} catch (error) {
-			return rejectWithValue(error.error);
+			return rejectWithValue(error.message);
 		}
 	}
 );
 
 export const deleteProduct = createAsyncThunk(
 	"products/deleteProduct",
-	async (id, { dispatch, rejectWithValue }) => {}
+	async (id, { dispatch, rejectWithValue }) => {
+		try {
+			const response = await api.delete(`/product/${id}`);
+			if (response.status !== 200 && response.status !== 201)
+				throw new Error(response.error);
+			dispatch(
+				showToastMessage({ message: "상품이 삭제되었습니다.", status: "success" })
+			);
+			dispatch(getProductList({ page: 1 }));
+			return id;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
 );
 
 export const editProduct = createAsyncThunk(
@@ -66,7 +78,7 @@ export const editProduct = createAsyncThunk(
 			dispatch(getProductList({ page: 1 }));
 			return response.data.data;
 		} catch (error) {
-			return rejectWithValue(error.error);
+			return rejectWithValue(error.message);
 		}
 	}
 );
@@ -96,20 +108,22 @@ const productSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(createProduct.pending, (state, action) => {
+			// createProduct
+			.addCase(createProduct.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(createProduct.fulfilled, (state, action) => {
+			.addCase(createProduct.fulfilled, (state) => {
 				state.loading = false;
 				state.error = "";
-				state.success = true; // 상품생성 성공시 다이얼로그 닫고, 실패하면 메시지 띄우기 &닫지않음
+				state.success = true;
 			})
 			.addCase(createProduct.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.data;
+				state.error = action.payload;
 				state.success = false;
 			})
-			.addCase(getProductList.pending, (state, action) => {
+			// getProductList
+			.addCase(getProductList.pending, (state) => {
 				state.loading = true;
 			})
 			.addCase(getProductList.fulfilled, (state, action) => {
@@ -120,21 +134,23 @@ const productSlice = createSlice({
 			})
 			.addCase(getProductList.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.data;
+				state.error = action.payload;
 			})
-			.addCase(editProduct.pending, (state, action) => {
+			// editProduct
+			.addCase(editProduct.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(editProduct.fulfilled, (state, action) => {
+			.addCase(editProduct.fulfilled, (state) => {
 				state.loading = false;
 				state.error = "";
 				state.success = true;
 			})
 			.addCase(editProduct.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.data;
+				state.error = action.payload;
 				state.success = false;
 			})
+			// getProductDetail
 			.addCase(getProductDetail.pending, (state) => {
 				state.loading = true;
 				state.error = "";
