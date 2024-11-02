@@ -42,16 +42,7 @@ const ProductDetail = () => {
 			return;
 		}
 
-		dispatch(
-			addToCart({
-				productId: selectedProduct._id,
-				size: size,
-				quantity: 1,
-				price: selectedProduct.price,
-				name: selectedProduct.name,
-				image: selectedProduct.image,
-			})
-		);
+		dispatch(addToCart({ id, size }));
 	};
 
 	const selectSize = (value) => {
